@@ -5,39 +5,10 @@
 
   boot.loader = {
     timeout = 3600;
-
+    systemd.enabled = true;
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";
-    };
-
-    grub = {
-      enable = true;
-      efiSupport = true;
-      device = "nodev";
-      useOSProber = false;
-      configurationLimit = 15;
-      default = 0;
-
-      extraEntries = ''
-        menuentry "Windows" --class windows --class os {
-          insmod part_gpt
-          insmod fat
-          insmod search_fs_uuid
-          insmod chain
-          search --no-floppy --fs-uuid --set=root ESP_UUID
-          chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-        }
-        menuentry "UEFI Firmware Settings" --class efi {
-          fwsetup
-        }
-        menuentry "Reboot" --class restart {
-          reboot
-        }
-        menuentry "Shutdown" --class shutdown {
-          halt
-        }
-      '';
     };
   };
 
